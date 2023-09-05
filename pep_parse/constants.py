@@ -32,3 +32,6 @@ datetime_now = datetime.datetime.now().strftime(DATETIME_FORMAT)
 
 # формат логов
 LOG_FORMAT: Final[str] = '%(asctime)s - [%(levelname)s] - %(message)s'
+
+# паттерн для парсинга заголовков страниц PEP
+PATTERN: Final[str] = '^PEP\s(?P<number>\d+)\s\–\s(?P<name>.+)$'

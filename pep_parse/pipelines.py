@@ -5,7 +5,6 @@ Pipelines проекта.
 from collections import defaultdict
 import csv
 import logging
-# todo логирование
 
 from pep_parse.constants import (STATUSES_FIELDNAMES,
                                  STATUSES_FILENAME,
@@ -20,7 +19,6 @@ class PepParsePipeline:
         self.statuses_quantity = defaultdict(int)
 
     def open_spider(self, spider):
-        # todo log
         pass
 
     # забираю статусы и подсчитываю их количество
@@ -34,7 +32,7 @@ class PepParsePipeline:
         self.statuses_quantity['Total']: int = sum(
             self.statuses_quantity.values()
         )
-        # todo log
+        logging.info('Данные переданы на запись в файл.')
         self.save_to_file()
 
     # записываю в csv файл
@@ -48,11 +46,7 @@ class PepParsePipeline:
                 writer.writeheader()
                 for status, quantity in self.statuses_quantity.items():
                     writer.writerow({column1: status, column2: quantity})
-                # todo log
-        except IOError as exc:
-            error_msg: str = ('Не удалось записать файл с результирующими '
-                              'данными парсера.')
-            # todo log
-            # logging.exception(msg=error_msg, stack_info=True)
-            raise SystemExit(error_msg) from exc
-
+            logging.info(f'Данные записаны в файл {file_name}.')
+        except IOError:
+            error_msg: str = 'Не удалось записать данные в файл.'
+            logging.exception(msg=error_msg, stack_info=True)
