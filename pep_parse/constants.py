@@ -1,3 +1,5 @@
+# Константы и переменные проекта.
+
 from pathlib import Path
 from typing import Final
 import datetime
@@ -15,9 +17,7 @@ PEP_DOMAIN: Final[str] = 'peps.python.org'
 STATUSES_FILENAME: Final[str] = 'status_summary'
 
 # названия полей в сводном файле статусов PEP
-STATUSES_FIELDNAMES: Final[tuple[str, str]] = (
-    'Статус', 'Количество'
-)
+STATUSES_FIELDNAMES: Final[tuple[str, str]] = ('Статус', 'Количество')
 
 # формат даты и времени для сохранения файлов
 DATETIME_FORMAT: Final[str] = '%Y-%m-%d_%H-%M-%S'

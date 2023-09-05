@@ -1,3 +1,5 @@
+# Pipelines проекта.
+
 from collections import defaultdict
 import csv
 
@@ -7,34 +9,36 @@ from pep_parse.constants import (STATUSES_FIELDNAMES,
 
 
 class PepParsePipeline:
-
+    """
+    Забирает из items статус, подсчитывает их количество и сохраняет в файл.
+    """
     def __init__(self):
         self.statuses_quantity = defaultdict(int)
 
     def open_spider(self, spider):
         pass
 
+    # забираю статусы и подсчитываю их количество
     def process_item(self, item, spider):
-        status = item['status']
+        status: str = item['status']
         self.statuses_quantity[status] += 1
         return item
 
+    # подсчитываю общее количество статусов
     def close_spider(self, spider):
         self.statuses_quantity['Total']: int = sum(
             self.statuses_quantity.values()
         )
         self.save_to_file()
 
+    # записываю в csv файл
     def save_to_file(self):
-        file_name = (f'{BASE_DIR}/{FILE_DIR}/{STATUSES_FILENAME}'
-                     f'_{datetime_now}.csv')
+        file_name: str = (f'{BASE_DIR}/{FILE_DIR}/{STATUSES_FILENAME}'
+                          f'_{datetime_now}.csv')
 
         with open(file_name, 'w', encoding='utf-8') as file:
-            status_column, quantity_column = STATUSES_FIELDNAMES
-            writer = csv.DictWriter(file, fieldnames=[
-                status_column, quantity_column
-            ])
+            column1, column2 = STATUSES_FIELDNAMES
+            writer = csv.DictWriter(file, fieldnames=[column1, column2])
             writer.writeheader()
             for status, quantity in self.statuses_quantity.items():
-                writer.writerow({status_column: status,
-                                 quantity_column: quantity})
+                writer.writerow({column1: status, column2: quantity})

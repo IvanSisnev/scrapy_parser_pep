@@ -1,3 +1,7 @@
+# Паук pep.
+
+# todo оптимизация
+# todo перехват ошибок
 # todo логирование https://docs.scrapy.org/en/latest/topics/logging.html
 #  #logging-from-spiders
 # todo readme
@@ -16,9 +20,7 @@ class PepSpider(scrapy.Spider):
 
     def parse(self, response, **kwargs):
         # забираю таблицу
-        pep_table = response.xpath(
-            '//*[@id="numerical-index"]'
-        ).css('tbody')
+        pep_table = response.xpath('//*[@id="numerical-index"]').css('tbody')
         # забираю все ряды с PEP из таблицы
         all_peps: list = pep_table.css('tr')
 
@@ -27,7 +29,7 @@ class PepSpider(scrapy.Spider):
             # забираю ccылку на страницу PEP
             pep_link: str = a_pep.css('a').attrib['href']
             pep_url: str = urljoin(PEP_URL, pep_link)
-
+            # передаю ссылку дальше
             yield response.follow(pep_url, callback=self.parse_pep)
 
     def parse_pep(self, response):
