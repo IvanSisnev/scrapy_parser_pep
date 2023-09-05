@@ -1,11 +1,9 @@
 from collections import defaultdict
 import csv
-import datetime
 
 from pep_parse.constants import (STATUSES_FIELDNAMES,
-                                DATETIME_FORMAT,
-                                STATUSES_FILENAME,
-                                FILE_DIR)
+                                 STATUSES_FILENAME,
+                                 FILE_DIR, BASE_DIR, datetime_now)
 
 
 class PepParsePipeline:
@@ -28,8 +26,8 @@ class PepParsePipeline:
         self.save_to_file()
 
     def save_to_file(self):
-        current_date_time = datetime.datetime.now().strftime(DATETIME_FORMAT)
-        file_name = (f'{FILE_DIR}/{STATUSES_FILENAME}_{current_date_time}.csv')
+        file_name = (f'{BASE_DIR}/{FILE_DIR}/{STATUSES_FILENAME}'
+                     f'_{datetime_now}.csv')
 
         with open(file_name, 'w', encoding='utf-8') as file:
             status_column, quantity_column = STATUSES_FIELDNAMES

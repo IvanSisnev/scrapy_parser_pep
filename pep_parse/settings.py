@@ -1,4 +1,3 @@
-from pep_parse.constants import FILE_DIR
 # Scrapy settings for pep_parse project
 #
 # For simplicity, this file contains only settings considered important or
@@ -89,7 +88,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 FEEDS = {
-    f'{FILE_DIR}/pep_%(time)s.csv': {
+    f'results/pep_%(time)s.csv': {
         'format': 'csv',
         'fields': ['number', 'name', 'status'],
         'overwrite': True
