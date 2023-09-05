@@ -2,9 +2,9 @@
 Константы и переменные проекта.
 """
 
+import datetime
 from pathlib import Path
 from typing import Final
-import datetime
 
 # путь до верхней директории проекта
 BASE_DIR: Final[Path] = Path(__file__).parent.parent
@@ -34,4 +34,4 @@ datetime_now = datetime.datetime.now().strftime(DATETIME_FORMAT)
 LOG_FORMAT: Final[str] = '%(asctime)s - [%(levelname)s] - %(message)s'
 
 # паттерн для парсинга заголовков страниц PEP
-PATTERN: Final[str] = '^PEP\s(?P<number>\d+)\s\–\s(?P<name>.+)$'
+PATTERN: Final[str] = r'^PEP\s(?P<number>\d+)\s\–\s(?P<name>.+)$'

@@ -22,9 +22,6 @@ FEEDS = {
 }
 
 LOG_FILE = 'logs/pep_logs.log'
-
 LOG_FILE_APPEND = True
-
 LOG_LEVEL = 'INFO'
-
 LOG_STDOUT = True

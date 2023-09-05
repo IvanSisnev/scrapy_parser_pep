@@ -2,9 +2,9 @@
 Pipelines проекта.
 """
 
+import logging
 from collections import defaultdict
 import csv
-import logging
 
 from pep_parse.constants import (STATUSES_FIELDNAMES,
                                  STATUSES_FILENAME,
@@ -49,4 +49,4 @@ class PepParsePipeline:
             logging.info(f'Данные записаны в файл {file_name}.')
         except IOError:
             error_msg: str = 'Не удалось записать данные в файл.'
-            logging.exception(msg=error_msg, stack_info=True)
+            logging.error(msg=error_msg, stack_info=True)

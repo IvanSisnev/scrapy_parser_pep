@@ -7,6 +7,7 @@ from pathlib import Path
 
 from pep_parse.constants import BASE_DIR, LOG_FORMAT, DATETIME_FORMAT
 
+
 def configure_logging():
     """
     Конфигуратор логирования.

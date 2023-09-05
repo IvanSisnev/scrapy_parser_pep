@@ -2,10 +2,9 @@
 Паук pep.
 """
 
-# todo логирование
 import logging
-from urllib.parse import urljoin
 import re
+from urllib.parse import urljoin
 
 import scrapy
 from tqdm import tqdm
@@ -52,8 +51,9 @@ class PepSpider(scrapy.Spider):
             pep_number: str = match.group('number')
             pep_title: str = match.group('name')
         else:
-            # warning_message: str = ('Не удалось получить номер или название '
-            #                         f'PEP по адресу: {response.url}.')
+            warning_msg: str = ('Не удалось получить номер или название '
+                                f'PEP по адресу: {response.url}.')
+            self.log(message=warning_msg, level=logging.warning)
             pep_number, pep_title = 'Неизвестно', 'Неизвестно'
 
         # забираю статус
