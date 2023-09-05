@@ -1,11 +1,11 @@
-# Паук pep.
+"""
+Паук pep.
+"""
 
-# todo оптимизация
 # todo перехват ошибок
-# todo логирование https://docs.scrapy.org/en/latest/topics/logging.html
-#  #logging-from-spiders
-# todo readme
+# todo логирование
 from urllib.parse import urljoin
+import logging
 
 import scrapy
 
@@ -20,13 +20,16 @@ class PepSpider(scrapy.Spider):
 
     def parse(self, response, **kwargs):
         # забираю таблицу
+        # todo exception
         pep_table = response.xpath('//*[@id="numerical-index"]').css('tbody')
         # забираю все ряды с PEP из таблицы
+        # todo exception
         all_peps: list = pep_table.css('tr')
 
         # прохожу по каждому ряду
         for a_pep in all_peps:
             # забираю ccылку на страницу PEP
+            # todo exception
             pep_link: str = a_pep.css('a').attrib['href']
             pep_url: str = urljoin(PEP_URL, pep_link)
             # передаю ссылку дальше
@@ -34,12 +37,16 @@ class PepSpider(scrapy.Spider):
 
     def parse_pep(self, response):
         # разбираю заголовок страницы, извлекаю номер и название
+        # todo exception
         page_title: list = response.css(
             '#pep-content > h1::text'
         ).get().split('–')
+        # todo regex?
+        # todo exception
         pep_number: str = page_title[0].split()[-1]
         pep_title: str = page_title[-1].strip()
         # забираю статус
+        # todo exception
         pep_status: str = response.css(
             'dt:contains("Status") + dd'
         ).css('abbr::text').get()

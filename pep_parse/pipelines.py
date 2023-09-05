@@ -1,7 +1,11 @@
-# Pipelines проекта.
+"""
+Pipelines проекта.
+"""
 
 from collections import defaultdict
 import csv
+import logging
+# todo логирование
 
 from pep_parse.constants import (STATUSES_FIELDNAMES,
                                  STATUSES_FILENAME,
@@ -16,6 +20,7 @@ class PepParsePipeline:
         self.statuses_quantity = defaultdict(int)
 
     def open_spider(self, spider):
+        # todo log
         pass
 
     # забираю статусы и подсчитываю их количество
@@ -29,16 +34,25 @@ class PepParsePipeline:
         self.statuses_quantity['Total']: int = sum(
             self.statuses_quantity.values()
         )
+        # todo log
         self.save_to_file()
 
     # записываю в csv файл
     def save_to_file(self):
         file_name: str = (f'{BASE_DIR}/{FILE_DIR}/{STATUSES_FILENAME}'
                           f'_{datetime_now}.csv')
+        try:
+            with open(file_name, 'w', encoding='utf-8') as file:
+                column1, column2 = STATUSES_FIELDNAMES
+                writer = csv.DictWriter(file, fieldnames=[column1, column2])
+                writer.writeheader()
+                for status, quantity in self.statuses_quantity.items():
+                    writer.writerow({column1: status, column2: quantity})
+                # todo log
+        except IOError as exc:
+            error_msg: str = ('Не удалось записать файл с результирующими '
+                              'данными парсера.')
+            # todo log
+            # logging.exception(msg=error_msg, stack_info=True)
+            raise SystemExit(error_msg) from exc
 
-        with open(file_name, 'w', encoding='utf-8') as file:
-            column1, column2 = STATUSES_FIELDNAMES
-            writer = csv.DictWriter(file, fieldnames=[column1, column2])
-            writer.writeheader()
-            for status, quantity in self.statuses_quantity.items():
-                writer.writerow({column1: status, column2: quantity})

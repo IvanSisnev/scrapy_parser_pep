@@ -1,4 +1,6 @@
-# Items проекта.
+"""
+Items проекта.
+"""
 
 import scrapy
 

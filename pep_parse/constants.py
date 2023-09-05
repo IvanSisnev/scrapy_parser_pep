@@ -1,4 +1,6 @@
-# Константы и переменные проекта.
+"""
+Константы и переменные проекта.
+"""
 
 from pathlib import Path
 from typing import Final
@@ -19,7 +21,7 @@ STATUSES_FILENAME: Final[str] = 'status_summary'
 # названия полей в сводном файле статусов PEP
 STATUSES_FIELDNAMES: Final[tuple[str, str]] = ('Статус', 'Количество')
 
-# формат даты и времени для сохранения файлов
+# формат даты и времени для сохранения файлов и записей в логах
 DATETIME_FORMAT: Final[str] = '%Y-%m-%d_%H-%M-%S'
 
 # название директории для сохранения файлов с результатами
@@ -27,3 +29,6 @@ FILE_DIR: Final[str] = 'results'
 
 # переменная с датой и временем в данный момент
 datetime_now = datetime.datetime.now().strftime(DATETIME_FORMAT)
+
+# формат логов
+LOG_FORMAT: Final[str] = '%(asctime)s - [%(levelname)s] - %(message)s'
