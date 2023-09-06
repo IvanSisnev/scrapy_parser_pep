@@ -16,7 +16,7 @@ class PepParsePipeline:
     Забирает из items статус, подсчитывает их количество и сохраняет в файл.
     """
     def __init__(self):
-        self.statuses_quantity = defaultdict(int)
+        self.statuses_quantities = defaultdict(int)
 
     def open_spider(self, spider):
         """
@@ -34,7 +34,7 @@ class PepParsePipeline:
         :return: объект Item
         """
         status: str = item['status']
-        self.statuses_quantity[status] += 1
+        self.statuses_quantities[status] += 1
         return item
 
     def close_spider(self, spider):
@@ -44,8 +44,8 @@ class PepParsePipeline:
         :param spider: паук
         :return: None
         """
-        self.statuses_quantity['Total']: int = sum(
-            self.statuses_quantity.values()
+        self.statuses_quantities['Total']: int = sum(
+            self.statuses_quantities.values()
         )
         logging.info('Данные переданы на запись в файл.')
         self.save_to_file()
@@ -62,10 +62,18 @@ class PepParsePipeline:
                 column1, column2 = STATUSES_FIELDNAMES
                 writer = csv.DictWriter(file, fieldnames=[column1, column2])
                 writer.writeheader()
-                # todo writerows
-                for status, quantity in self.statuses_quantity.items():
+                """
+                Не стал ничего менять, так как не нашел простого способа 
+                записать defaultdict() в csv методом writerows(): из 
+                словаря приходится делать список словарей, в которых ключи - 
+                названия столбцов. Иными словами все равно нужно проходить 
+                циклом и т.п. Либо изначально в методе process_item() словари 
+                складывать в список, но это тоже усложняет код.
+                """
+                for status, quantity in self.statuses_quantities.items():
                     writer.writerow({column1: status, column2: quantity})
             logging.info(f'Данные записаны в файл {file_name}.')
+
         except IOError:
             error_msg: str = 'Не удалось записать данные в файл.'
             logging.error(msg=error_msg, stack_info=True)
