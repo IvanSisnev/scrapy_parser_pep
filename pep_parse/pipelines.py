@@ -62,16 +62,10 @@ class PepParsePipeline:
                 column1, column2 = STATUSES_FIELDNAMES
                 writer = csv.DictWriter(file, fieldnames=[column1, column2])
                 writer.writeheader()
-                """
-                Не стал ничего менять, так как не нашел простого способа
-                записать defaultdict() в csv методом writerows(): из
-                словаря приходится делать список словарей, в которых ключи -
-                названия столбцов. Иными словами все равно нужно проходить
-                циклом и т.п. Либо изначально в методе process_item() словари
-                складывать в список, но это тоже усложняет код.
-                """
-                for status, quantity in self.statuses_quantities.items():
-                    writer.writerow({column1: status, column2: quantity})
+                writer.writerows([
+                    {column1: status, column2: quantity}
+                    for status, quantity in self.statuses_quantities.items()
+                ])
             logging.info(f'Данные записаны в файл {file_name}.')
 
         except IOError:
